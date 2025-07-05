@@ -42,40 +42,21 @@
   </section>
 
   <section id="tokenomics" class="section">
-  <h2>📊 Tokenomics</h2>
-  <ul>
-    <li id="supply">Supply : 1 000 000 000 SLM</li>
-    <li>
-      Bonding Curve :
-      <div class="curve-container">
-        <div class="curve-fill" id="curveBar" style="width: 1%;"></div>
-      </div>
-      <span id="curvePercent">1%</span>
-    </li>
-    <li id="liquidity">Liquidity actuelle : <span id="liveLiquidity">chargement...</span></li>
-    <li>Taxe Zen : 4.20 % redistribuée aux Maîtres Escargots 🧙‍♂️</li>
-    <li>Récompense : 🧘 après 69 jours sans vente</li>
-  </ul>
-</section>
-
-
-  <section id="tokenomics" class="section">
-  <h2>📊 Tokenomics</h2>
-  <ul>
-    <li id="supply">Supply : 1 000 000 000 SLM</li>
-    <li>
-      Bonding Curve :
-      <div class="curve-container">
-        <div class="curve-fill" id="curveBar" style="width: 1%; transition: width 2.5s ease-in-out;"></div>
-      </div>
-      <span id="curvePercent">chargement...</span>
-    </li>
-    <li id="liquidity">Liquidity actuelle : <span id="liveLiquidity">chargement...</span></li>
-    <li>Taxe Zen : 4.20 % redistribuée aux Maîtres Escargots 🧙‍♂️</li>
-    <li>Récompense : 🧘 après 69 jours sans vente</li>
-  </ul>
-</section>
-
+    <h2>📊 Tokenomics</h2>
+    <ul>
+      <li>Supply : 1 000 000 000 SLM</li>
+      <li>
+        Bonding Curve :
+        <div class="curve-container">
+          <div class="curve-fill" id="curveBar" style="width: 1%; transition: width 2s ease-in-out;"></div>
+        </div>
+        <span id="curvePercent">chargement...</span>
+      </li>
+      <li>Liquidity actuelle : <span id="liveLiquidity">chargement...</span></li>
+      <li>Taxe Zen : 4.20 % redistribuée aux Maîtres Escargots 🧙‍♂️</li>
+      <li>Récompense : 🧘 après 69 jours sans vente</li>
+    </ul>
+  </section>
 
   <footer>
     <p>© 2025 SLOWMO DAO — L’avenir s’écrit à vitesse d’escargot 🐌</p>
@@ -91,11 +72,9 @@
         const threshold = data.graduationThresholdSol || 1;
         const percent = threshold > 0 ? (liquidity / threshold) * 100 : 0;
 
-        const bar = document.getElementById("curveBar");
-        const label = document.getElementById("curvePercent");
-
-        bar.style.width = percent.toFixed(1) + '%';
-        label.textContent = Math.ceil(percent) + '%'; // ✅ corriger ici
+        document.getElementById("curveBar").style.width = percent.toFixed(1) + "%";
+        document.getElementById("curvePercent").textContent = percent.toFixed(1) + "%";
+        document.getElementById("liveLiquidity").textContent = liquidity.toFixed(2) + " SOL";
 
         if (liquidity > 0) {
           const banner = document.getElementById("curveBanner");
@@ -105,10 +84,14 @@
             banner.style.transform = `translateY(${Math.sin(y / 100) * 5}px)`;
           });
         }
+
       } catch (e) {
-        console.log("Erreur bonding curve 🐢", e);
+        console.error("Erreur Pump.fun 🐌", e);
+        document.getElementById("curvePercent").textContent = "❌";
+        document.getElementById("liveLiquidity").textContent = "indisponible";
       }
     }
+
     fetchData();
   </script>
 </body>
