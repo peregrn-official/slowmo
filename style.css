@@ -1,7 +1,9 @@
+/* $SLOWMO – Design inspiré de PEPE.VIP 🐌 */
+
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 body {
   background: #0a0a0a;
@@ -15,13 +17,13 @@ a {
 }
 .navbar {
   background: #111;
+  padding: 20px;
   display: flex;
   justify-content: center;
   gap: 30px;
-  padding: 20px;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 999;
 }
 .navbar a {
   color: #fff;
@@ -34,7 +36,13 @@ a {
 .hero {
   text-align: center;
   padding: 120px 20px 80px;
-  background: linear-gradient(135deg, #1a1a1a, #2e2e2e);
+  background: linear-gradient(135deg, #111, #222);
+}
+.hero-logo {
+  width: 120px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #76ff9e;
 }
 .hero h1 {
   font-size: 4rem;
@@ -59,18 +67,19 @@ a {
 }
 .section {
   padding: 80px 20px;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
+  text-align: center;
 }
 .section.alt {
   background: #111;
 }
-h2 {
+.section h2 {
   font-size: 2rem;
   color: #76ff9e;
   margin-bottom: 20px;
 }
-ul, ol {
+.section ul, .section ol {
   text-align: left;
   margin: 0 auto;
   max-width: 600px;
@@ -80,7 +89,7 @@ ul, ol {
 footer {
   text-align: center;
   font-size: 0.9rem;
-  color: #ccc;
   background: #000;
+  color: #999;
   padding: 30px;
 }
