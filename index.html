@@ -44,7 +44,7 @@
   <section id="tokenomics" class="section">
     <h2>📊 Tokenomics</h2>
     <ul>
-      <li id="supply">Supply : En cours de matérialisation cosmique 🌀</li>
+      <li id="supply">Supply : 1 000 000 000 SLM</li>
       <li>
         Bonding Curve :
         <div class="curve-container">
@@ -52,6 +52,7 @@
         </div>
         <span id="curvePercent">0%</span>
       </li>
+      <li>Liquidity actuelle : affichée en direct</li>
       <li>Taxe Zen : 4.20 % redistribuée aux Maîtres Escargots</li>
       <li>Récompense : 🧘 après 69 jours sans vente</li>
     </ul>
@@ -77,28 +78,19 @@
     <p>© 2025 SLOWMO DAO — L’avenir s’écrit à vitesse d’escargot 🐌</p>
   </footer>
 
-  <!-- Scripts dynamiques -->
   <script>
     async function fetchData() {
       try {
         const res = await fetch("https://api.pump.fun/api/v0/coins/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump");
         const data = await res.json();
 
-        // Supply
-        const supply = data?.supply;
-        if (supply) {
-          const display = new Intl.NumberFormat('fr-FR').format(supply);
-          document.getElementById("supply").textContent = `Supply : ${display}`;
-        }
-
-        // Curve
+        // Bonding Curve
         const liquidity = data.liquiditySol || 0;
         const threshold = data.graduationThresholdSol || 1;
         const percent = Math.min((liquidity / threshold) * 100, 100);
         document.getElementById("curveBar").style.width = percent + '%';
         document.getElementById("curvePercent").textContent = Math.floor(percent) + '%';
 
-        // Banner et scroll
         if (liquidity > 0) {
           const banner = document.getElementById("curveBanner");
           banner.style.display = "block";
@@ -108,18 +100,10 @@
           });
         }
       } catch (e) {
-        console.log("Erreur sur le marais 🐸", e);
+        console.log("Erreur bonding curve 🐢", e);
       }
     }
     fetchData();
   </script>
-
-  <style>
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.6; }
-      100% { opacity: 1; }
-    }
-  </style>
 </body>
 </html>
