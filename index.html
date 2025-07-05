@@ -84,19 +84,21 @@
         const res = await fetch("https://api.pump.fun/api/v0/coins/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump");
         const data = await res.json();
 
-        // Bonding Curve
+        // bonding curve %
         const liquidity = data.liquiditySol || 0;
         const threshold = data.graduationThresholdSol || 1;
-        const percent = Math.min((liquidity / threshold) * 100, 100);
-        document.getElementById("curveBar").style.width = percent + '%';
-        document.getElementById("curvePercent").textContent = Math.floor(percent) + '%';
+        const percent = threshold > 0 ? (liquidity / threshold) * 100 : 0;
+        const bar = document.getElementById("curveBar");
+        const label = document.getElementById("curvePercent");
+        bar.style.width = percent.toFixed(1) + '%';
+        label.textContent = Math.round(percent) + '%';
 
         if (liquidity > 0) {
           const banner = document.getElementById("curveBanner");
           banner.style.display = "block";
           window.addEventListener("scroll", () => {
-            const scrollTop = window.scrollY;
-            banner.style.transform = `translateY(${Math.sin(scrollTop / 100) * 5}px)`;
+            const y = window.scrollY;
+            banner.style.transform = `translateY(${Math.sin(y / 100) * 5}px)`;
           });
         }
       } catch (e) {
