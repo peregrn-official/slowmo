@@ -1,4 +1,4 @@
-/* $SLOWMO – Design inspiré de PEPE.VIP 🐌 */
+/* SLOWMO – Cosmic Meme DAO 🐌 */
 
 * {
   margin: 0;
@@ -42,7 +42,7 @@ a {
   width: 80px;
   margin-bottom: 20px;
   border-radius: 50%;
-  box-shadow: 0 0 8px #76ff9e;
+  box-shadow: 0 0 10px #76ff9e;
 }
 .hero h1 {
   font-size: 4rem;
@@ -92,4 +92,19 @@ footer {
   background: #000;
   color: #999;
   padding: 30px;
+}
+
+/* 🟢 Bannière curve */
+.curve-banner {
+  background: #76ff9e;
+  color: #000;
+  font-weight: bold;
+  text-align: center;
+  padding: 15px;
+  font-size: 1.1rem;
+  box-shadow: 0 0 15px #76ff9e;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: transform 0.2s ease-in-out;
 }
