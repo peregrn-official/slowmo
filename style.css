@@ -38,11 +38,11 @@ a {
   padding: 120px 20px 80px;
   background: linear-gradient(135deg, #111, #222);
 }
-.hero-logo {
-  width: 120px;
+.hero-logo.small {
+  width: 80px;
   margin-bottom: 20px;
   border-radius: 50%;
-  box-shadow: 0 0 10px #76ff9e;
+  box-shadow: 0 0 8px #76ff9e;
 }
 .hero h1 {
   font-size: 4rem;
