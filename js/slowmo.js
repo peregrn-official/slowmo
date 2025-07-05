@@ -7,10 +7,16 @@ async function fetchData() {
     const threshold = data.graduationThresholdSol || 1;
     const percent = threshold > 0 ? (liquidity / threshold) * 100 : 0;
 
+    // 🎯 Met à jour la barre de Bonding Curve
     document.getElementById("curveBar").style.width = percent.toFixed(1) + "%";
+
+    // ✏️ Met à jour le texte du pourcentage
     document.getElementById("curvePercent").textContent = percent.toFixed(1) + "%";
+
+    // 💧 Affiche la liquidité en SOL
     document.getElementById("liveLiquidity").textContent = liquidity.toFixed(2) + " SOL";
 
+    // 🟢 Active la bannière animée si dispo
     if (liquidity > 0) {
       const banner = document.getElementById("curveBanner");
       banner.style.display = "block";
