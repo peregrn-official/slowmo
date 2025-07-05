@@ -9,7 +9,7 @@
 </head>
 <body>
   <div id="curveBanner" class="curve-banner" style="display:none;">
-    🟢 La bonding curve est active. Le marais respire lentement...
+    🟢 Bonding Curve activée – le marais respire...
   </div>
 
   <nav class="navbar">
@@ -29,7 +29,7 @@
 
   <section id="about" class="section">
     <h2>😌 À propos</h2>
-    <p>Fatigué du FOMO ? $SLOWMO ramène la paix. Aucune vitesse. Zéro panique. Juste de l’endurance cosmique.</p>
+    <p>Fatigué du FOMO ? $SLOWMO ramène la paix. Pas de vitesse. Zéro panique. Juste de l’endurance cosmique.</p>
   </section>
 
   <section id="buy" class="section alt">
@@ -45,7 +45,7 @@
     <h2>📊 Tokenomics</h2>
     <ul>
       <li id="supply">Supply : En cours de matérialisation cosmique 🌀</li>
-      <li id="curveProgress">
+      <li>
         Bonding Curve :
         <div class="curve-container">
           <div class="curve-fill" id="curveBar" style="width: 0%;"></div>
@@ -62,7 +62,7 @@
     <ul>
       <li>✅ Lancement sur Pump.fun</li>
       <li>🌿 Bonding Curve en éveil</li>
-      <li>🎮 Jeu “Course des Lenteurs” à venir</li>
+      <li>🎮 Course des Lenteurs</li>
       <li>✨ NFT Escargots Cosmiques (Q1 2026)</li>
     </ul>
   </section>
@@ -79,35 +79,26 @@
 
   <!-- Scripts dynamiques -->
   <script>
-    // Mise à jour supply
-    async function fetchSupply() {
+    async function fetchData() {
       try {
         const res = await fetch("https://api.pump.fun/api/v0/coins/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump");
         const data = await res.json();
+
+        // Supply
         const supply = data?.supply;
         if (supply) {
           const display = new Intl.NumberFormat('fr-FR').format(supply);
           document.getElementById("supply").textContent = `Supply : ${display}`;
         }
-      } catch (e) {
-        console.log("Zen error 🧘:", e);
-      }
-    }
 
-    // Mise à jour barre de curve
-    async function updateCurveProgress() {
-      try {
-        const res = await fetch("https://api.pump.fun/api/v0/coins/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump");
-        const data = await res.json();
-        const liquidity = data?.liquiditySol || 0;
-        const threshold = data?.graduationThresholdSol || 1;
+        // Curve
+        const liquidity = data.liquiditySol || 0;
+        const threshold = data.graduationThresholdSol || 1;
         const percent = Math.min((liquidity / threshold) * 100, 100);
-        const rounded = Math.floor(percent);
-        document.getElementById("curveBar").style.width = `${percent}%`;
-        document.getElementById("curvePercent").textContent = `${rounded}%`;
-        if (rounded >= 90) {
-          document.getElementById("curveBar").style.animation = "pulse 2s infinite";
-        }
+        document.getElementById("curveBar").style.width = percent + '%';
+        document.getElementById("curvePercent").textContent = Math.floor(percent) + '%';
+
+        // Banner et scroll
         if (liquidity > 0) {
           const banner = document.getElementById("curveBanner");
           banner.style.display = "block";
@@ -117,12 +108,10 @@
           });
         }
       } catch (e) {
-        console.log("Curve load fail 🐢", e);
+        console.log("Erreur sur le marais 🐸", e);
       }
     }
-
-    fetchSupply();
-    updateCurveProgress();
+    fetchData();
   </script>
 
   <style>
