@@ -84,14 +84,15 @@
         const res = await fetch("https://api.pump.fun/api/v0/coins/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump");
         const data = await res.json();
 
-        // bonding curve %
         const liquidity = data.liquiditySol || 0;
         const threshold = data.graduationThresholdSol || 1;
         const percent = threshold > 0 ? (liquidity / threshold) * 100 : 0;
+
         const bar = document.getElementById("curveBar");
         const label = document.getElementById("curvePercent");
+
         bar.style.width = percent.toFixed(1) + '%';
-        label.textContent = Math.round(percent) + '%';
+        label.textContent = Math.ceil(percent) + '%'; // ✅ corriger ici
 
         if (liquidity > 0) {
           const banner = document.getElementById("curveBanner");
