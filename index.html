@@ -8,7 +8,6 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  <!-- 🟢 Bannière Bonding Curve -->
   <div id="curveBanner" class="curve-banner" style="display:none;">
     🟢 La bonding curve est active. Le marais respire lentement...
   </div>
@@ -46,6 +45,13 @@
     <h2>📊 Tokenomics</h2>
     <ul>
       <li id="supply">Supply : En cours de matérialisation cosmique 🌀</li>
+      <li id="curveProgress">
+        Bonding Curve :
+        <div class="curve-container">
+          <div class="curve-fill" id="curveBar" style="width: 0%;"></div>
+        </div>
+        <span id="curvePercent">0%</span>
+      </li>
       <li>Taxe Zen : 4.20 % redistribuée aux Maîtres Escargots</li>
       <li>Récompense : 🧘 après 69 jours sans vente</li>
     </ul>
@@ -73,7 +79,7 @@
 
   <!-- Scripts dynamiques -->
   <script>
-    // Mise à jour du Supply dynamiquement
+    // Mise à jour supply
     async function fetchSupply() {
       try {
         const res = await fetch("https://api.pump.fun/api/v0/coins/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump");
@@ -87,13 +93,22 @@
         console.log("Zen error 🧘:", e);
       }
     }
-    fetchSupply();
 
-    // Activation de la bannière si curve active + scroll animation
-    fetch("https://api.pump.fun/api/v0/coins/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump")
-      .then(res => res.json())
-      .then(data => {
-        if (data.liquiditySol > 0) {
+    // Mise à jour barre de curve
+    async function updateCurveProgress() {
+      try {
+        const res = await fetch("https://api.pump.fun/api/v0/coins/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump");
+        const data = await res.json();
+        const liquidity = data?.liquiditySol || 0;
+        const threshold = data?.graduationThresholdSol || 1;
+        const percent = Math.min((liquidity / threshold) * 100, 100);
+        const rounded = Math.floor(percent);
+        document.getElementById("curveBar").style.width = `${percent}%`;
+        document.getElementById("curvePercent").textContent = `${rounded}%`;
+        if (rounded >= 90) {
+          document.getElementById("curveBar").style.animation = "pulse 2s infinite";
+        }
+        if (liquidity > 0) {
           const banner = document.getElementById("curveBanner");
           banner.style.display = "block";
           window.addEventListener("scroll", () => {
@@ -101,7 +116,21 @@
             banner.style.transform = `translateY(${Math.sin(scrollTop / 100) * 5}px)`;
           });
         }
-      });
+      } catch (e) {
+        console.log("Curve load fail 🐢", e);
+      }
+    }
+
+    fetchSupply();
+    updateCurveProgress();
   </script>
+
+  <style>
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+  </style>
 </body>
 </html>
