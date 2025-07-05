@@ -1,1 +1,89 @@
+/* SLOWMO – Style Zen mais stylé 🐌 */
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Comic Neue', 'Fredoka', sans-serif;
+  background: linear-gradient(135deg, #aaffcc, #cc99ff);
+  color: #1a1a1a;
+  text-align: center;
+}
+
+header {
+  padding: 80px 20px 40px;
+  background-color: #ffffff33;
+}
+
+.logo {
+  width: 100px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #fff;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin: 0;
+  color: #4e0066;
+}
+
+.slogan {
+  font-size: 1.4rem;
+  font-style: italic;
+  margin-top: 10px;
+  color: #333;
+}
+
+main {
+  padding: 40px 20px;
+}
+
+section {
+  margin-bottom: 60px;
+}
+
+h2 {
+  color: #6a00cc;
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 15px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+.btn {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 25px;
+  background: #8e00ff;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #a040ff;
+  transform: scale(1.05);
+}
+
+footer {
+  padding: 30px;
+  font-size: 0.9rem;
+  background: #f9f9f9;
+  color: #333;
+}
