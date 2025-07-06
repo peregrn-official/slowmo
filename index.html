@@ -5,8 +5,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>$SLOWMO – Le Marais Officiel</title>
   <link rel="icon" href="favicon.ico" />
-  <link rel="stylesheet" href="style.css" />
-  <script src="js/slowmo.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(#0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .logo {
+      width: 150px;
+      margin: 40px 0 20px;
+      animation: float 8s ease-in-out infinite;
+      cursor: pointer;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-style: italic;
+      opacity: 0.8;
+      margin-bottom: 30px;
+    }
+
+    .tracker {
+      font-size: 1.2rem;
+      font-family: monospace;
+      margin-bottom: 10px;
+    }
+
+    .links a {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 24px;
+      background: #229ED9;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .links a:hover {
+      background: #1b8bb8;
+    }
+
+    .manifesto {
+      max-width: 600px;
+      padding: 40px 20px;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .manifesto h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .manifesto ul {
+      padding-left: 20px;
+    }
+
+    canvas {
+      margin: 30px auto;
+      max-width: 90%;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+
+    .slowmo {
+      transform: scale(1.2) rotate(2deg);
+      filter: blur(1px);
+      transition: all 2s ease-in-out;
+    }
+  </style>
 </head>
 <body>
   <img src="images/logo.png" alt="$SLOWMO Logo" class="logo" />
@@ -20,8 +113,97 @@
     <a href="https://pump.fun/coin/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump" target="_blank">💸 Voir sur Pump.fun</a>
   </div>
 
+  <canvas id="growthChart" width="360" height="200"></canvas>
+
+  <section class="manifesto">
+    <h2>📜 Le SLOW Paper</h2>
+    <p>
+      Bienvenue dans le marais. Ici, tout prend le temps d’être.  
+      Pas de FOMO. Pas de moonshots.  
+      <strong>$SLOWMO</strong> est le premier token qui récompense l'immobilité cosmique :
+    </p>
+    <ul>
+      <li>+0.001 % de croissance par jour. Pas plus.</li>
+      <li>0 hype. 100 % calme.</li>
+      <li>Un seul objectif : rester lent, longtemps.</li>
+    </ul>
+    <p>
+      Ceux qui savent ralentir domineront le temps. Ceux qui courent tombent.  
+      Ici, on flotte 🐢  
+      <em>“Moins tu fais, plus tu gagnes.”</em>
+    </p>
+  </section>
+
   <footer>
     © 2025 $SLOWMO Community – Ralentis, tu vas trop vite
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const logo = document.querySelector('.logo');
+      const tracker = document.querySelector('.tracker');
+
+      // 💫 Toggle slowmo sur clic
+      logo?.addEventListener('click', () => {
+        logo.classList.toggle('slowmo');
+      });
+
+      // 💰 Prix temps réel via Solana Tracker
+      async function fetchPrice() {
+        try {
+          const res = await fetch('https://public-api.solanatracker.io/tokens/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump');
+          const data = await res.json();
+          const price = data?.token?.price?.usd;
+
+          if (price && tracker) {
+            tracker.textContent = `💸 Prix actuel : $${price.toFixed(4)} USD`;
+          }
+        } catch (err) {
+          tracker.textContent = 'Erreur de chargement du prix 🐌';
+        }
+      }
+
+      fetchPrice();
+      setInterval(fetchPrice, 30000); // refresh chaque 30 secondes
+
+      // 📈 Tracer la courbe de croissance cosmique
+      function plotGrowthChart() {
+        const ctx = document.getElementById('growthChart').getContext('2d');
+        const days = 30;
+        const data = [];
+        const labels = [];
+        let value = 1;
+
+        for (let i = 0; i < days; i++) {
+          value *= 1.00001; // 0.001%/j
+          data.push(value.toFixed(4));
+          labels.push(`Jour ${i + 1}`);
+        }
+
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Croissance lente (%)',
+              data,
+              fill: false,
+              borderColor: '#ffffff',
+              tension: 0.1
+            }]
+          },
+          options: {
+            plugins: { legend: { display: false }},
+            scales: {
+              y: { ticks: { color: '#ccc' }, grid: { color: '#444' }},
+              x: { ticks: { color: '#ccc' }, grid: { display: false }}
+            }
+          }
+        });
+      }
+
+      plotGrowthChart();
+    });
+  </script>
 </body>
 </html>
