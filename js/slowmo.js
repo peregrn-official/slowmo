@@ -12,12 +12,7 @@ async function fetchData() {
     document.getElementById("liveLiquidity").textContent = liquidity.toFixed(2) + " SOL";
 
     if (liquidity > 0) {
-      const banner = document.getElementById("curveBanner");
-      banner.style.display = "block";
-      window.addEventListener("scroll", () => {
-        const y = window.scrollY;
-        banner.style.transform = `translateY(${Math.sin(y / 100) * 5}px)`;
-      });
+      document.getElementById("curveBanner").style.display = "block";
     }
 
   } catch (e) {
