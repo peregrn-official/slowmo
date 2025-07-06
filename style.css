@@ -1,103 +1,47 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f5f5f5;
-  color: #222;
   margin: 0;
   padding: 0;
-}
-
-.navbar {
-  background: #fff;
-  padding: 15px;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
-  gap: 30px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
+  align-items: center;
+  height: 100vh;
+  background: #121212;
+  color: #fff;
 }
 
-.navbar a {
-  color: #333;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.hero {
+.container {
   text-align: center;
-  padding: 60px 20px;
-  background: linear-gradient(to bottom, #e8f5e9, #ffffff);
 }
 
-.hero-logo {
-  width: 100px;
+.logo {
+  width: 120px;
   margin-bottom: 20px;
+  transition: transform 1s ease-in-out;
 }
 
-.btn {
-  background: #52c41a;
+.slowmo {
+  transform: scale(1.2) rotate(5deg);
+  filter: blur(1px) brightness(0.9);
+  transition: all 3s ease-in-out;
+}
+
+button {
+  background: #0d6efd;
+  border: none;
   color: white;
   padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 20px;
-}
-
-.section {
-  padding: 60px 20px;
-  max-width: 800px;
-  margin: auto;
-}
-
-.section.alt {
-  background-color: #f0f0f0;
-}
-
-.curve-container {
-  width: 100%;
-  background-color: #e0e0e0;
-  height: 12px;
+  font-size: 1rem;
   border-radius: 6px;
-  overflow: hidden;
-  margin: 5px 0;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.curve-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #52c41a, #b4ec51);
-  width: 0%;
-  transition: width 2.5s ease-in-out;
+button:hover {
+  background: #0b5ed7;
 }
 
-#curvePercent {
-  margin-left: 8px;
-  font-style: italic;
-  color: #444;
+#status {
+  margin-top: 16px;
+  font-weight: 300;
 }
-
-.curve-banner {
-  background-color: #d4edda;
-  color: #155724;
-  padding: 10px;
-  text-align: center;
-  font-weight: bold;
-  display: none;
-}
-
-footer {
-  text-align: center;
-  padding: 30px 10px;
-  font-size: 0.9rem;
-  color: #777;
-  background-color: #fafafa;
-  border-top: 1px solid #ddd;
-}
-
-.links {
-  list-style: none;
-  padding: 0;
-  text-align: center;
-  line-height: 2;
-}
- 
