@@ -2,29 +2,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const logo = document.querySelector('.logo');
   const tracker = document.querySelector('.tracker');
 
-  // État d’activation du mode slow
-  let slowActive = false;
-
-  // Fonction d’activation cosmique 🐢
-  function toggleSlowMo() {
-    slowActive = !slowActive;
+  // Animation slowmo toggle
+  logo?.addEventListener('click', () => {
     logo.classList.toggle('slowmo');
+  });
+
+  // Récupération du prix via Solana Tracker API
+  async function fetchPrice() {
+    try {
+      const res = await fetch('https://public-api.solanatracker.io/tokens/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump');
+      const data = await res.json();
+      const price = data?.token?.price?.usd;
+
+      if (price && tracker) {
+        tracker.textContent = `💸 Prix actuel : $${price.toFixed(4)} USD`;
+      }
+    } catch (err) {
+      tracker.textContent = 'Erreur de chargement du prix 🐌';
+    }
   }
 
-  // Clique lent sur le logo = toggle slowmo
-  if (logo) {
-    logo.addEventListener('click', () => {
-      toggleSlowMo();
-    });
-  }
-
-  // Simulation de croissance lente
-  const startDate = new Date('2024-07-01'); // date fictive de lancement
-  const today = new Date();
-  const daysElapsed = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
-  const growth = (0.001 * daysElapsed).toFixed(3);
-
-  if (tracker) {
-    tracker.textContent = `📈 Croissance cosmique : +${growth} % depuis le début`;
-  }
+  fetchPrice();
+  setInterval(fetchPrice, 30000); // mise à jour toutes les 30 sec
 });
