@@ -1,25 +1,17 @@
-async function fetchData() {
-  try {
-    const res = await fetch("https://api.pump.fun/api/v0/coins/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump");
-    const data = await res.json();
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('slowMoBtn');
+  const statusText = document.getElementById('status');
+  const logo = document.querySelector('.logo');
 
-    const liquidity = data.liquiditySol || 0;
-    const threshold = data.graduationThresholdSol || 1;
-    const percent = threshold > 0 ? (liquidity / threshold) * 100 : 0;
+  let isActive = false;
 
-    document.getElementById("curveBar").style.width = percent.toFixed(1) + "%";
-    document.getElementById("curvePercent").textContent = percent.toFixed(1) + "%";
-    document.getElementById("liveLiquidity").textContent = liquidity.toFixed(2) + " SOL";
+  function toggleSlowMo() {
+    isActive = !isActive;
 
-    if (liquidity > 0) {
-      document.getElementById("curveBanner").style.display = "block";
-    }
-
-  } catch (e) {
-    console.error("Erreur Pump.fun 🐌", e);
-    document.getElementById("curvePercent").textContent = "❌";
-    document.getElementById("liveLiquidity").textContent = "indisponible";
+    logo.classList.toggle('slowmo', isActive);
+    statusText.textContent = isActive ? 'Effet SlowMo activé ✨' : 'Effet désactivé';
+    btn.textContent = isActive ? 'Désactiver le SlowMo' : 'Activer le SlowMo';
   }
-}
 
-fetchData();
+  btn.addEventListener('click', toggleSlowMo);
+});
