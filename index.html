@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>$SLOWMO – Le Marais Officiel</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="js/slowmo.js" defer></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(#0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
 
+    .logo {
+      width: 150px;
+      margin-bottom: 20px;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-style: italic;
+      opacity: 0.8;
+      margin-bottom: 30px;
+    }
+
+    .tracker {
+      margin: 20px auto;
+      font-size: 1.4rem;
+      font-family: monospace;
+    }
+
+    .links a {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 24px;
+      background: #229ED9;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .links a:hover {
+      background: #1b8bb8;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <img src="images/logo.png" alt="$SLOWMO Logo" class="logo" />
+  <h1>🐢 $SLOWMO – Official Marais</h1>
+  <p class="subtitle">Le seul token qui refuse d’accélérer.</p>
+
+  <div class="tracker">
+    📈 Croissance cosmique : +0.001 % / jour
+  </div>
+
+  <div class="links">
+    <a href="https://t.me/SLOWMOOfficial" target="_blank">🌀 Rejoins Telegram</a>
+    <a href="https://pump.fun/coin/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump" target="_blank">💸 Voir sur Pump.fun</a>
+  </div>
+
+  <footer>
+    © 2025 $SLOWMO Community – Ralentis, tu vas trop vite
+  </footer>
+</body>
+</html>
