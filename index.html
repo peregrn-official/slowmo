@@ -126,4 +126,153 @@
       font-size: 0.9rem;
     }
   </style>
-</head>
+ <body>
+  <div id="slow-loader">
+    <h2>🐢 Bienvenue dans le marais...</h2>
+    <p>Chargement de la lenteur cosmique...</p>
+  </div>
+
+  <img src="images/logo.png" alt="$SLOWMO Logo" class="logo" />
+  <h1 id="main-title">🐢 $SLOWMO – Le Marais Officiel</h1>
+  <p class="subtitle" id="subtitle">Le seul token qui refuse d’accélérer.</p>
+
+  <select id="lang-switcher">
+    <option value="fr">🇫🇷 Français</option>
+    <option value="en">🇬🇧 English</option>
+    <option value="es">🇪🇸 Español</option>
+  </select>
+
+  <div class="tracker" id="tracker">Chargement du prix...</div>
+
+  <div class="links">
+    <a href="https://t.me/SLOWMOOfficial" target="_blank">🌀 Rejoins Telegram</a>
+    <a href="https://pump.fun/coin/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump" target="_blank">💸 Voir sur Pump.fun</a>
+  </div>
+
+  <canvas id="growthChart" width="360" height="200"></canvas>
+
+  <section class="manifesto" id="manifesto">
+    <h2>📜 Le SLOW Paper</h2>
+    <p id="manifesto-text">
+      Bienvenue dans le marais. Ici, tout prend le temps d’être.  
+      Pas de FOMO. Pas de moonshots.  
+      <strong>$SLOWMO</strong> est le premier token qui récompense l'immobilité cosmique :
+    </p>
+    <ul>
+      <li>+0.001 % de croissance par jour. Pas plus.</li>
+      <li>0 hype. 100 % calme.</li>
+      <li>Un seul objectif : rester lent, longtemps.</li>
+    </ul>
+    <p>
+      Ceux qui savent ralentir domineront le temps. Ceux qui courent tombent.  
+      Ici, on flotte 🐢  
+      <em id="manifesto-quote">“Moins tu fais, plus tu gagnes.”</em>
+    </p>
+  </section>
+
+  <footer>
+    © 2025 $SLOWMO Community – Ralentis, tu vas trop vite
+  </footer>
+
+  <script>
+    // Intro lente
+    setTimeout(() => {
+      document.getElementById("slow-loader")?.remove();
+    }, 7000);
+
+    // Logo slowmo toggle
+    document.querySelector(".logo")?.addEventListener("click", () => {
+      document.querySelector(".logo").classList.toggle("slowmo");
+    });
+
+    // Langues
+    const translations = {
+      fr: {
+        title: "$SLOWMO – Le Marais Officiel",
+        subtitle: "Le seul token qui refuse d’accélérer.",
+        tracker: "Chargement du prix...",
+        manifesto: "Bienvenue dans le marais. Ici, tout prend le temps d’être.",
+        quote: "“Moins tu fais, plus tu gagnes.”"
+      },
+      en: {
+        title: "$SLOWMO – The Official Swamp",
+        subtitle: "The only token that refuses to accelerate.",
+        tracker: "Loading price...",
+        manifesto: "Welcome to the swamp. Here, everything takes time to be.",
+        quote: "“The less you do, the more you gain.”"
+      },
+      es: {
+        title: "$SLOWMO – El Pantano Oficial",
+        subtitle: "El único token que se niega a acelerar.",
+        tracker: "Cargando precio...",
+        manifesto: "Bienvenido al pantano. Aquí, todo toma su tiempo.",
+        quote: "“Cuanto menos haces, más ganas.”"
+      }
+    };
+
+    document.getElementById('lang-switcher').addEventListener('change', (e) => {
+      const lang = e.target.value;
+      document.getElementById("main-title").textContent = "🐢 " + translations[lang].title;
+      document.getElementById("subtitle").textContent = translations[lang].subtitle;
+      document.getElementById("tracker").textContent = translations[lang].tracker;
+      document.getElementById("manifesto-text").textContent = translations[lang].manifesto;
+      document.getElementById("manifesto-quote").textContent = translations[lang].quote;
+    });
+
+    // Prix temps réel via Pump.fun API
+    async function fetchPrice() {
+      try {
+        const res = await fetch('https://pump.fun/api/coin/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump');
+        const data = await res.json();
+        const price = data?.priceUsdc;
+        if (price) {
+          document.getElementById("tracker").textContent = `💸 Prix actuel : $${parseFloat(price).toFixed(4)} USD`;
+        }
+      } catch {
+        document.getElementById("tracker").textContent = "Erreur de chargement du prix 🐌";
+      }
+    }
+
+    fetchPrice();
+    setInterval(fetchPrice, 30000);
+
+    // Graphique croissance lente
+    function plotGrowthChart() {
+      const ctx = document.getElementById('growthChart').getContext('2d');
+      const days = 30;
+      const data = [];
+      const labels = [];
+      let value = 1;
+
+      for (let i = 0; i < days; i++) {
+        value *= 1.00001;
+        data.push(value.toFixed(4));
+        labels.push(`Jour ${i + 1}`);
+      }
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Croissance lente (%)',
+            data,
+            fill: false,
+            borderColor: '#ffffff',
+            tension: 0.1
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false }},
+          scales: {
+            y: { ticks: { color: '#ccc' }, grid: { color: '#444' }},
+            x: { ticks: { color: '#ccc' }, grid: { display: false }}
+          }
+        }
+      });
+    }
+
+    window.addEventListener("load", plotGrowthChart);
+  </script>
+</body>
+</html>
