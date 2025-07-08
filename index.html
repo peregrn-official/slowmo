@@ -1,278 +1,571 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>$SLOWMO – Le Marais Officiel</title>
-  <link rel="icon" href="favicon.ico" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(#0f2027, #203a43, #2c5364);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      text-align: center;
-      overflow-x: hidden;
-    }
-
-    #slow-loader {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #0f2027;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      animation: fadeOut 4s ease forwards;
-      animation-delay: 3s;
-    }
-
-    @keyframes fadeOut {
-      to { opacity: 0; visibility: hidden; }
-    }
-
-    .logo {
-      width: 150px;
-      margin: 40px 0 20px;
-      animation: float 8s ease-in-out infinite;
-      cursor: pointer;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      font-style: italic;
-      opacity: 0.8;
-      margin-bottom: 30px;
-    }
-
-    .tracker {
-      font-size: 1.2rem;
-      font-family: monospace;
-      margin-bottom: 10px;
-    }
-
-    .links a {
-      display: inline-block;
-      margin: 10px;
-      padding: 12px 24px;
-      background: #229ED9;
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: background 0.3s ease;
-    }
-
-    .links a:hover {
-      background: #1b8bb8;
-    }
-
-    .manifesto {
-      max-width: 600px;
-      padding: 40px 20px;
-      text-align: left;
-      line-height: 1.6;
-    }
-
-    .manifesto h2 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-    }
-
-    .manifesto ul {
-      padding-left: 20px;
-    }
-
-    canvas {
-      margin: 30px auto;
-      max-width: 90%;
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.9rem;
-      opacity: 0.6;
-    }
-
-    .slowmo {
-      transform: scale(1.2) rotate(2deg);
-      filter: blur(1px);
-      transition: all 2s ease-in-out;
-    }
-
-    #lang-switcher {
-      margin-top: 16px;
-      padding: 6px 10px;
-      border-radius: 4px;
-      font-size: 0.9rem;
-    }
-  </style>
- <body>
-  <div id="slow-loader">
-    <h2>🐢 Bienvenue dans le marais...</h2>
-    <p>Chargement de la lenteur cosmique...</p>
-  </div>
-
-  <img src="images/logo.png" alt="$SLOWMO Logo" class="logo" />
-  <h1 id="main-title">🐢 $SLOWMO – Le Marais Officiel</h1>
-  <p class="subtitle" id="subtitle">Le seul token qui refuse d’accélérer.</p>
-
-  <select id="lang-switcher">
-    <option value="fr">🇫🇷 Français</option>
-    <option value="en">🇬🇧 English</option>
-    <option value="es">🇪🇸 Español</option>
-  </select>
-
-  <div class="tracker" id="tracker">Chargement du prix...</div>
-
-  <div class="links">
-    <a href="https://t.me/SLOWMOOfficial" target="_blank">🌀 Rejoins Telegram</a>
-    <a href="https://pump.fun/coin/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump" target="_blank">💸 Voir sur Pump.fun</a>
-  </div>
-
-  <canvas id="growthChart" width="360" height="200"></canvas>
-
-  <section class="manifesto" id="manifesto">
-    <h2>📜 Le SLOW Paper</h2>
-    <p id="manifesto-text">
-      Bienvenue dans le marais. Ici, tout prend le temps d’être.  
-      Pas de FOMO. Pas de moonshots.  
-      <strong>$SLOWMO</strong> est le premier token qui récompense l'immobilité cosmique :
-    </p>
-    <ul>
-      <li>+0.001 % de croissance par jour. Pas plus.</li>
-      <li>0 hype. 100 % calme.</li>
-      <li>Un seul objectif : rester lent, longtemps.</li>
-    </ul>
-    <p>
-      Ceux qui savent ralentir domineront le temps. Ceux qui courent tombent.  
-      Ici, on flotte 🐢  
-      <em id="manifesto-quote">“Moins tu fais, plus tu gagnes.”</em>
-    </p>
-  </section>
-
-  <footer>
-    © 2025 $SLOWMO Community – Ralentis, tu vas trop vite
-  </footer>
-
-  <script>
-    // Intro lente
-    setTimeout(() => {
-      document.getElementById("slow-loader")?.remove();
-    }, 7000);
-
-    // Logo slowmo toggle
-    document.querySelector(".logo")?.addEventListener("click", () => {
-      document.querySelector(".logo").classList.toggle("slowmo");
-    });
-
-    // Langues
-    const translations = {
-      fr: {
-        title: "$SLOWMO – Le Marais Officiel",
-        subtitle: "Le seul token qui refuse d’accélérer.",
-        tracker: "Chargement du prix...",
-        manifesto: "Bienvenue dans le marais. Ici, tout prend le temps d’être.",
-        quote: "“Moins tu fais, plus tu gagnes.”"
-      },
-      en: {
-        title: "$SLOWMO – The Official Swamp",
-        subtitle: "The only token that refuses to accelerate.",
-        tracker: "Loading price...",
-        manifesto: "Welcome to the swamp. Here, everything takes time to be.",
-        quote: "“The less you do, the more you gain.”"
-      },
-      es: {
-        title: "$SLOWMO – El Pantano Oficial",
-        subtitle: "El único token que se niega a acelerar.",
-        tracker: "Cargando precio...",
-        manifesto: "Bienvenido al pantano. Aquí, todo toma su tiempo.",
-        quote: "“Cuanto menos haces, más ganas.”"
-      }
-    };
-
-    document.getElementById('lang-switcher').addEventListener('change', (e) => {
-      const lang = e.target.value;
-      document.getElementById("main-title").textContent = "🐢 " + translations[lang].title;
-      document.getElementById("subtitle").textContent = translations[lang].subtitle;
-      document.getElementById("tracker").textContent = translations[lang].tracker;
-      document.getElementById("manifesto-text").textContent = translations[lang].manifesto;
-      document.getElementById("manifesto-quote").textContent = translations[lang].quote;
-    });
-
-    // Prix temps réel via Pump.fun API
-    async function fetchPrice() {
-      try {
-        const res = await fetch('https://pump.fun/api/coin/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump');
-        const data = await res.json();
-        const price = data?.priceUsdc;
-        if (price) {
-          document.getElementById("tracker").textContent = `💸 Prix actuel : $${parseFloat(price).toFixed(4)} USD`;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLOMON - Le Meme Coin qui prend son temps</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2b2d42;
+            --secondary: #8d99ae;
+            --accent: #ef233c;
+            --light: #edf2f4;
+            --dark: #1a1a2e;
+            --gradient: linear-gradient(135deg, #ef233c 0%, #2b2d42 100%);
         }
-      } catch {
-        document.getElementById("tracker").textContent = "Erreur de chargement du prix 🐌";
-      }
-    }
-
-    fetchPrice();
-    setInterval(fetchPrice, 30000);
-
-    // Graphique croissance lente
-    function plotGrowthChart() {
-      const ctx = document.getElementById('growthChart').getContext('2d');
-      const days = 30;
-      const data = [];
-      const labels = [];
-      let value = 1;
-
-      for (let i = 0; i < days; i++) {
-        value *= 1.00001;
-        data.push(value.toFixed(4));
-        labels.push(`Jour ${i + 1}`);
-      }
-
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Croissance lente (%)',
-            data,
-            fill: false,
-            borderColor: '#ffffff',
-            tension: 0.1
-          }]
-        },
-        options: {
-          plugins: { legend: { display: false }},
-          scales: {
-            y: { ticks: { color: '#ccc' }, grid: { color: '#444' }},
-            x: { ticks: { color: '#ccc' }, grid: { display: false }}
-          }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-      });
-    }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(43, 45, 66, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(237, 242, 244, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .connect-wallet {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .connect-wallet:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 35, 60, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(239, 35, 60, 0.1) 0%, rgba(26, 26, 46, 0.9) 70%);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+        
+        .hero h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(239, 35, 60, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--light);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(237, 242, 244, 0.1);
+        }
+        
+        .hero-image {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 50%;
+            max-width: 700px;
+            z-index: -1;
+            opacity: 0.8;
+        }
+        
+        /* Token Info */
+        .token-info {
+            padding: 4rem 2rem;
+            background: var(--primary);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .info-card {
+            background: rgba(26, 26, 46, 0.5);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(237, 242, 244, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .info-card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .info-card p {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .info-card .change {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .positive {
+            color: #4ade80;
+        }
+        
+        .negative {
+            color: #f87171;
+        }
+        
+        /* Chart Section */
+        .chart-section {
+            padding: 4rem 2rem;
+            background: var(--dark);
+        }
+        
+        .chart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--primary);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* How to Buy */
+        .how-to-buy {
+            padding: 4rem 2rem;
+            background: var(--primary);
+        }
+        
+        .steps {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background: var(--gradient);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .step-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        /* Community */
+        .community {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: var(--dark);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .social-link {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+        
+        .social-link:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            background: var(--primary);
+            border-top: 1px solid rgba(237, 242, 244, 0.1);
+        }
+        
+        .disclaimer {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+            
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 6rem;
+            }
+            
+            .hero-content {
+                margin-bottom: 2rem;
+            }
+            
+            .hero-image {
+                position: relative;
+                width: 100%;
+                margin-top: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="https://via.placeholder.com/40" alt="SLOMON Logo">
+            <span class="logo-text">SLOMON</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#token">Token</a></li>
+                <li><a href="#chart">Graphique</a></li>
+                <li><a href="#buy">Comment acheter</a></li>
+                <li><a href="#community">Communauté</a></li>
+            </ul>
+        </nav>
+        <button class="connect-wallet" id="connectWallet">
+            <i class="fas fa-wallet"></i> Connecter Wallet
+        </button>
+    </header>
 
-    window.addEventListener("load", plotGrowthChart);
-  </script>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Le Meme Coin qui <span>prend son temps</span></h1>
+            <p>SLOMON n'est pas pressé. Pourquoi devrions-nous l'être? Rejoignez le mouvement le plus relax de la crypto.</p>
+            <div class="cta-buttons">
+                <a href="#buy" class="btn btn-primary">
+                    <i class="fas fa-coins"></i> Acheter SLOMON
+                </a>
+                <a href="https://pump.fun/coin/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump?include-nsfw=true" target="_blank" class="btn btn-secondary">
+                    <i class="fas fa-chart-line"></i> Voir sur Pump.fun
+                </a>
+            </div>
+        </div>
+        <img src="https://via.placeholder.com/700x500" alt="SLOMON Meme" class="hero-image">
+    </section>
+
+    <!-- Token Info -->
+    <section class="token-info" id="token">
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>Prix actuel</h3>
+                <p>$0.000042</p>
+                <span class="change positive">+12.5%</span>
+            </div>
+            <div class="info-card">
+                <h3>Market Cap</h3>
+                <p>$420,690</p>
+                <span class="change positive">+8.3%</span>
+            </div>
+            <div class="info-card">
+                <h3>Liquidité</h3>
+                <p>$69,420</p>
+                <span class="change positive">+5.7%</span>
+            </div>
+            <div class="info-card">
+                <h3>Holders</h3>
+                <p>1,337</p>
+                <span class="change positive">+15.2%</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chart Section -->
+    <section class="chart-section" id="chart">
+        <div class="chart-container">
+            <h2>Graphique SLOMON</h2>
+            <div style="height: 400px; background: rgba(237, 242, 244, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--secondary);">
+                [Intégrer un graphique TradingView ou autre ici]
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Buy -->
+    <section class="how-to-buy" id="buy">
+        <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Comment acheter SLOMON</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Obtenez un Wallet Crypto</h3>
+                    <p>Téléchargez Phantom, MetaMask ou un wallet compatible Solana et achetez du SOL ou de l'ETH.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Allez sur Pump.fun</h3>
+                    <p>Visitez <a href="https://pump.fun/coin/FQwBR2CVt2vyFZeqBQ3veGYxpYgFYi4NuHfHoi7tpump?include-nsfw=true" target="_blank" style="color: var(--accent);">la page SLOMON sur Pump.fun</a>.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Connectez votre Wallet</h3>
+                    <p>Cliquez sur "Connect Wallet" et autorisez la connexion.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Achetez SLOMON</h3>
+                    <p>Entrez le montant que vous souhaitez acheter et confirmez la transaction.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>HODL et relax</h3>
+                    <p>SLOMON n'est pas pressé, alors détendez-vous et profitez du voyage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community -->
+    <section class="community" id="community">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Rejoignez la communauté</h2>
+        <p style="color: var(--secondary); max-width: 600px; margin: 0 auto;">
+            SLOMON est plus qu'un token, c'est un mode de vie. Rejoignez notre communauté de détenteurs relax.
+        </p>
+        <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-reddit"></i></a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="disclaimer">
+            <p><strong>Disclaimer:</strong> SLOMON est un meme coin sans valeur intrinsèque. Achetez à vos propres risques. Ce projet n'a aucune utilité réelle et est purement destiné au divertissement.</p>
+        </div>
+        <p>&copy; 2023 SLOMON Meme Coin. Aucun droit réservé.</p>
+    </footer>
+
+    <script>
+        // Wallet Connection
+        document.getElementById('connectWallet').addEventListener('click', function() {
+            alert('Fonctionnalité de connexion wallet à implémenter. En production, vous utiliseriez Phantom, MetaMask ou autre.');
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Animated price updates (simulation)
+        function simulatePriceChanges() {
+            const priceElements = document.querySelectorAll('.info-card p');
+            const changeElements = document.querySelectorAll('.change');
+            
+            setInterval(() => {
+                priceElements.forEach(el => {
+                    if(el.textContent.includes('$')) {
+                        const current = parseFloat(el.textContent.replace(/[^0-9.]/g, ''));
+                        const change = (Math.random() - 0.4) * 0.00002;
+                        const newValue = current + change;
+                        el.textContent = '$' + newValue.toFixed(6).replace(/\.?0+$/, '');
+                    } else {
+                        const current = parseInt(el.textContent.replace(/[^0-9]/g, ''));
+                        const change = Math.floor(Math.random() * 10) - 3;
+                        el.textContent = (current + Math.max(change, 0)).toLocaleString();
+                    }
+                });
+                
+                changeElements.forEach(el => {
+                    const isPositive = Math.random() > 0.3;
+                    const changeValue = (Math.random() * 5).toFixed(1);
+                    
+                    if(isPositive) {
+                        el.textContent = `+${changeValue}%`;
+                        el.className = 'change positive';
+                    } else {
+                        el.textContent = `-${changeValue}%`;
+                        el.className = 'change negative';
+                    }
+                });
+            }, 3000);
+        }
+        
+        simulatePriceChanges();
+    </script>
 </body>
 </html>
